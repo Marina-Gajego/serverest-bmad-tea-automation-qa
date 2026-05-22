@@ -1,10 +1,13 @@
 package br.com.marina.qa.stepsDefinitions.Commons;
 
 import br.com.marina.qa.context.ScenarioContext;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -14,6 +17,14 @@ public class CommonsSteps {
 
     public CommonsSteps(ScenarioContext context) {
         this.context = context;
+    }
+
+    @And("The response contract should match {string}")
+    public void theContractShouldMatchTheLoginResponseSchema(String schemaPath){
+        Response response = context.getResponse();
+        response.then()
+                .assertThat()
+                .body(matchesJsonSchemaInClasspath(schemaPath));
     }
 
     @Then("The response status code should be {int}")

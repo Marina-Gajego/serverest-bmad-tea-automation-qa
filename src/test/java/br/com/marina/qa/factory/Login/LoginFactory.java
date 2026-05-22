@@ -13,50 +13,70 @@ import java.util.Map;
 public final class LoginFactory {
 
     private static final Faker FAKER = new Faker(new Locale("pt-BR"));
-    private static final String VALID_EMAIL = "fulano@qa.com";
-    private static final String VALID_PASSWORD = "teste";
 
-    public static LoginModel validCredentials() {
+    public static LoginModel validLogin() {
         return LoginModel.builder()
-                .email(VALID_EMAIL)
-                .password(VALID_PASSWORD)
+                .email(FAKER.internet().emailAddress())
+                .password(FAKER.internet().password(8, 16, true, true))
+                .build();
+    }
+
+    public static LoginModel validCredentials(String email, String password) {
+        return LoginModel.builder()
+                .email(email)
+                .password(password)
                 .build();
     }
 
     public static LoginModel missingEmail() {
-        return LoginModel.builder()
-                .email(null)
-                .password(FAKER.internet().password(8, 16, true, true))
-                .build();
+        return validLogin().toBuilder().email(null).build();
     }
 
     public static LoginModel missingPassword() {
-        return LoginModel.builder()
-                .email(FAKER.internet().emailAddress())
-                .password(null)
-                .build();
+        return validLogin().toBuilder().password(null).build();
     }
 
     public static LoginModel invalidFormatEmail() {
-        return LoginModel.builder()
+        return validLogin().toBuilder()
                 .email(FAKER.name().firstName().toLowerCase() + "atcom")
-                .password(FAKER.internet().password(8, 16, true, true))
                 .build();
     }
 
-    public static Map<String, Object> fieldNull(String field) {
+    private static Map<String, Object> toMap(LoginModel model) {
         Map<String, Object> map = new HashMap<>();
-        map.put("email", FAKER.internet().emailAddress());
-        map.put("password", FAKER.internet().password(8, 16, true, true));
+        map.put("email", model.getEmail());
+        map.put("password", model.getPassword());
+        return map;
+    }
+
+    public static Map<String, Object> fieldNull(String field) {
+        Map<String, Object> map = toMap(validLogin());
         map.put(field, null);
         return map;
     }
 
     public static Map<String, Object> fieldAsInteger(String field) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("email", FAKER.internet().emailAddress());
-        map.put("password", FAKER.internet().password(8, 16, true, true));
+        Map<String, Object> map = toMap(validLogin());
         map.put(field, 1234);
         return map;
+    }
+
+    public static LoginModel wrongEmail() {
+        return validLogin().toBuilder()
+                .password("12345")
+                .build();
+    }
+
+    public static LoginModel wrongPassword(){
+        return validLogin().toBuilder()
+                .password("12345")
+                .build();
+    }
+
+    public static LoginModel wrongEmailAndPassword(){
+        return LoginModel.builder()
+                .email("marina@qa.com.br")
+                .password("12345")
+                .build();
     }
 }

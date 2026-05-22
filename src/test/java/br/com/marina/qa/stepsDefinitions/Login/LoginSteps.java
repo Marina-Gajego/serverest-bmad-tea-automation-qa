@@ -8,7 +8,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -20,11 +19,6 @@ public class LoginSteps {
     public LoginSteps(LoginService loginService, ScenarioContext context) {
         this.loginService = loginService;
         this.context = context;
-    }
-
-    @Given("I have valid login credentials")
-    public void iHaveValidLoginCredentials() {
-        context.setPayload(LoginFactory.validCredentials());
     }
 
     @Given("I have a login payload with the {string} as {string}")
@@ -43,14 +37,39 @@ public class LoginSteps {
                 context.setPayload(LoginFactory.invalidFormatEmail());
                 break;
             default:
-                throw new IllegalArgumentException("Condição não suportada: " + condition);
+                throw new IllegalArgumentException("Condition not supported: " + condition);
+        }
+    }
+
+    @Given("I have login credentials with {string}")
+    public void iHaveAPayloadWithConditions(String condition) {
+        switch (condition) {
+            case "invalid email":
+                context.setPayload(LoginFactory.wrongEmail());
+                break;
+            case "invalid password":
+                context.setPayload(LoginFactory.wrongPassword());
+                break;
+            case "invalid email and password":
+                context.setPayload(LoginFactory.wrongEmailAndPassword());
+                break;
+            default:
+                throw new IllegalArgumentException("Condition not supported: " + condition);
         }
     }
 
     @When("I send a POST request to the authentication endpoint")
     public void iSendAPostRequest() {
-        Response response = loginService.login(context.getPayload());
+        Object payload = context.getPayload();
+
+        if (payload == null && context.getEmail() != null) {
+            payload = LoginFactory.validCredentials(context.getEmail(), context.getPassword());
+            context.setPayload(payload);
+        }
+
+        Response response = loginService.login(payload);
         context.setResponse(response);
+        log.info(response.asString());
         log.info("Request sent. Status: {}", response.getStatusCode());
     }
 
@@ -60,5 +79,12 @@ public class LoginSteps {
         String token = response.jsonPath().getString("authorization");
         assertThat(token).as("Response should contain 'authorization' token").isNotNull().isNotEmpty();
         context.setAuthToken(token);
+    }
+
+    @And("The response should not contain a token")
+    public void theResponseShouldNotContainAToken() {
+        Response response = context.getResponse();
+        String token = response.jsonPath().getString("authorization");
+        assertThat(token).as("Response should not contain 'authorization' token").isNull();
     }
 }
