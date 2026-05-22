@@ -16,11 +16,17 @@ public class ScenarioContext {
     private String authToken;
     private final Map<String, Object> testData = new HashMap<>();
 
+    //Login
+    private String email;
+    private String password;
+
     public void clearAll() {
         response = null;
         payload = null;
         authToken = null;
         testData.clear();
+        email = null;
+        password = null;
     }
 }
 

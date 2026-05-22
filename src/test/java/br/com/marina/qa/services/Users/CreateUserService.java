@@ -1,24 +1,24 @@
-package br.com.marina.qa.services.Login;
+package br.com.marina.qa.services.Users;
 
 import io.restassured.response.Response;
-import lombok.extern.slf4j.Slf4j;
 import static br.com.marina.qa.paths.Paths.*;
+import lombok.extern.slf4j.Slf4j;
 import static io.restassured.RestAssured.given;
 
 @Slf4j
-public class LoginService {
+public class CreateUserService {
 
-    public Response login(Object payload) {
+    public Response createUser(Object payload){
         Response response = given()
                 .baseUri(BASE_URL)
-                .basePath(LOGIN_ENDPOINT)
+                .basePath(USERS_ENDPOINT)
                 .contentType("application/json")
                 .body(payload)
                 .when()
                 .log().all()
                 .post();
 
-        log.info("Login request completed with status: {}", response.getStatusCode());
+        log.info("User created with success. Status code: {}", response.getStatusCode());
         return response;
     }
 }
