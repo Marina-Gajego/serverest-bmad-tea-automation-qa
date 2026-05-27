@@ -20,6 +20,11 @@ public class ScenarioContext {
     private String email;
     private String password;
 
+    //Users
+    private String id;
+    private String nome;
+    private String administrador;
+
     public void clearAll() {
         response = null;
         payload = null;
@@ -27,6 +32,8 @@ public class ScenarioContext {
         testData.clear();
         email = null;
         password = null;
+        id = null;
+        nome = null;
+        administrador = null;
     }
 }
-
