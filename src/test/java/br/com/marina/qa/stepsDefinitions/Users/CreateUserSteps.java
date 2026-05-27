@@ -28,8 +28,14 @@ public class CreateUserSteps {
         Response response = createUserService.createUser(userPayload);
         log.info(response.asString());
         context.setResponse(response);
+        assertThat(response.getStatusCode())
+                .as("User should be created before running this scenario")
+                .isEqualTo(201);
+        context.setId(response.jsonPath().getString("_id"));
         context.setEmail(userPayload.getEmail());
         context.setPassword(userPayload.getPassword());
+        context.setNome(userPayload.getNome());
+        context.setAdministrador(userPayload.getAdministrador());
         log.info("User created: {} | {}", context.getEmail(), context.getPassword());
     }
 
@@ -76,6 +82,7 @@ public class CreateUserSteps {
         Response response = context.getResponse();
         String id = response.jsonPath().getString("_id");
         assertThat((id)).as("Response should contain '_id'").isNotNull().isNotEmpty();
+        context.setId(id);
     }
 
     @And("The response should not contain id")

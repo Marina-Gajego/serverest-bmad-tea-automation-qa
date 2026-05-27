@@ -6,6 +6,7 @@ import com.github.javafaker.Faker;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 public final class CreateUserFactory {
 
@@ -14,10 +15,20 @@ public final class CreateUserFactory {
     public static CreateUserModel validCreateUser(){
         return CreateUserModel.builder()
                 .nome(FAKER.name().fullName())
-                .email(FAKER.name().firstName().trim().toLowerCase().replace(" ", "") + "@qa.com")
+                .email(uniqueEmail())
                 .password(String.valueOf(FAKER.number().randomNumber()))
                 .administrador("true")
                 .build();
+    }
+
+    private static String uniqueEmail() {
+        String firstName = FAKER.name().firstName()
+                .trim()
+                .toLowerCase()
+                .replaceAll("[^a-z0-9]", "");
+        String uniqueSuffix = UUID.randomUUID().toString().substring(0, 8);
+
+        return firstName + "." + uniqueSuffix + "@qa.com";
     }
 
     public static CreateUserModel missingField(String field){
