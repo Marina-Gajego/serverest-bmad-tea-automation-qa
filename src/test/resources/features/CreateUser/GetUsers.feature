@@ -111,7 +111,6 @@ Feature: Validate GET users API in different scenarios
   @id=
   Scenario: Get created user is not returned when nome has leading spaces - (GET /usuarios)
     Given I have a registered user
-    Given I have a registered user
     When I send a GET request to the users endpoint with the "nome" query parameter and value "leadingSpaces"
     Then The response status code should be 200
     And The response should not contain the created user
