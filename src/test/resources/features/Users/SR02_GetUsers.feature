@@ -1,4 +1,4 @@
-@regression @GetUsuarios
+@regression @Users
 Feature: Validate GET users API in different scenarios
 
   @id=
@@ -113,5 +113,23 @@ Feature: Validate GET users API in different scenarios
     Given I have a registered user
     When I send a GET request to the users endpoint with the "nome" query parameter and value "leadingSpaces"
     Then The response status code should be 200
+    And The response should not contain the created user
+    And The response contract should match "schemas/CreateUser/get_users.schema.json"
+
+  @id=
+  Scenario: Get user without query parameters - (GET /usuarios)
+    Given I have a registered user
+    When I send a GET request to the users endpoint without query parameters
+    Then The response status code should be 200
+    And The response should contain the correct user
+    And The response contract should match "schemas/CreateUser/get_users.schema.json"
+
+  @id=
+  Scenario: Verify deleted user is not returned in search - (GET /usuarios)
+    Given I have a registered user
+    When I send a DELETE request to the users endpoint with the created user id
+    Then The response status code should be 200
+    And The response should contain the message "Registro excluído com sucesso"
+    And I send a GET request to the users endpoint
     And The response should not contain the created user
     And The response contract should match "schemas/CreateUser/get_users.schema.json"

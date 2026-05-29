@@ -1,6 +1,6 @@
 package br.com.marina.qa.factory.Users;
 
-import br.com.marina.qa.model.Users.CreateUserModel;
+import br.com.marina.qa.model.Users.CreateUsersModel;
 import com.github.javafaker.Faker;
 
 import java.util.HashMap;
@@ -8,16 +8,16 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-public final class CreateUserFactory {
+public final class CreateUsersFactory {
 
     private static final Faker FAKER = new Faker(new Locale("pt-BR"));
 
-    public static CreateUserModel validCreateUser(){
-        return CreateUserModel.builder()
+    public static CreateUsersModel validCreateUser(String administrador){
+        return CreateUsersModel.builder()
                 .nome(FAKER.name().fullName())
                 .email(uniqueEmail())
                 .password(String.valueOf(FAKER.number().randomNumber()))
-                .administrador("true")
+                .administrador(administrador)
                 .build();
     }
 
@@ -31,8 +31,8 @@ public final class CreateUserFactory {
         return firstName + "." + uniqueSuffix + "@qa.com";
     }
 
-    public static CreateUserModel missingField(String field){
-        CreateUserModel base = validCreateUser();
+    public static CreateUsersModel missingField(String field){
+        CreateUsersModel base = validCreateUser("true");
         switch (field) {
             case "nome": return base.toBuilder().nome(null).build();
             case "email": return base.toBuilder().email(null).build();
@@ -42,7 +42,7 @@ public final class CreateUserFactory {
         }
     }
 
-    private static Map<String, Object> toMap(CreateUserModel model) {
+    private static Map<String, Object> toMap(CreateUsersModel model) {
         Map<String, Object> map = new HashMap<>();
         map.put("nome", model.getNome());
         map.put("email", model.getEmail());
@@ -52,13 +52,13 @@ public final class CreateUserFactory {
     }
 
     public static Map<String, Object> fieldAsInteger(String field) {
-        Map<String, Object> map = toMap(validCreateUser());
+        Map<String, Object> map = toMap(validCreateUser("true"));
         map.put(field, 12345);
         return map;
     }
 
-    public static CreateUserModel invalidField(String condition){
-        CreateUserModel base = validCreateUser();
+    public static CreateUsersModel invalidField(String condition){
+        CreateUsersModel base = validCreateUser("true");
 
         if (condition.contains("email")) {
             return base.toBuilder()
@@ -74,7 +74,7 @@ public final class CreateUserFactory {
     }
 
     public static Object fieldAsNull(String field) {
-        Map<String, Object> map = toMap(validCreateUser());
+        Map<String, Object> map = toMap(validCreateUser("true"));
         map.put(field, null);
         return map;
     }

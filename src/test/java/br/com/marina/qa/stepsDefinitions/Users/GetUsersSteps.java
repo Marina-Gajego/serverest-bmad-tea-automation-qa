@@ -47,6 +47,12 @@ public class GetUsersSteps {
         sendGetUsersRequest(parameters);
     }
 
+    @When("I send a GET request to the users endpoint without query parameters")
+    public void sendGetUsersRequestWithoutQueryParameters(){
+        Response response = getUsersService.getUsersWithoutQueryParams();
+        context.setResponse(response);
+    }
+
     @When("I send a GET request to the users endpoint with the {string} and {string} query parameters")
     public void sendGetUsersRequestWithTwoQueryParameters(String firstField, String secondField){
         String firstValue = getCreatedUserFieldValue(firstField);

@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import static io.restassured.RestAssured.given;
 
 @Slf4j
-public class CreateUserService {
+public class CreateUsersService {
 
     public Response createUser(Object payload){
         Response response = given()
