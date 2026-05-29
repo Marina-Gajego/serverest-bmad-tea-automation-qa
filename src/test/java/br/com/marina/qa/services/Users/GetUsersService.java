@@ -32,6 +32,21 @@ public class GetUsersService {
         return response;
     }
 
+    public Response getUsersWithoutQueryParams(){
+        waitBeforeGet();
+
+        Response response = given()
+                .baseUri(BASE_URL)
+                .basePath(USERS_ENDPOINT)
+                .contentType("application/json")
+                .when()
+                .log().all()
+                .get();
+
+        log.info("Get users. Status code: {}", response.getStatusCode());
+        return response;
+    }
+
     public Response getUsers(Map<String, Object> queryParams){
         waitBeforeGet();
 

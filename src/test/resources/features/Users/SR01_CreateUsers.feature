@@ -1,4 +1,4 @@
-@regression @CreateUser
+@regression @Users
 Feature: Validate create users api in different scenarios
 
   @id=
