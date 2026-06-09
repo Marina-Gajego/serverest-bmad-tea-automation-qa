@@ -1,6 +1,5 @@
 package br.com.marina.qa.factory.Users;
 
-
 import br.com.marina.qa.model.Users.GetUsersModel;
 
 public final class GetUsersFactory {

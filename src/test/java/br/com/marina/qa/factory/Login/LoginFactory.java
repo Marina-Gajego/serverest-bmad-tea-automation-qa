@@ -61,6 +61,15 @@ public final class LoginFactory {
         return map;
     }
 
+    public static LoginModel fieldEmpty(String field) {
+        if (field.equalsIgnoreCase("email")) {
+            return validLogin().toBuilder().email("").build();
+        } else if (field.equalsIgnoreCase("password")) {
+            return validLogin().toBuilder().password("").build();
+        }
+        throw new IllegalArgumentException("Field not supported: " + field);
+    }
+
     public static LoginModel wrongEmail() {
         return validLogin().toBuilder()
                 .password("12345")

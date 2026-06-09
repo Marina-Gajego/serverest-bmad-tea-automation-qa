@@ -57,6 +57,17 @@ public final class CreateUsersFactory {
         return map;
     }
 
+    public static CreateUsersModel fieldEmpty(String field) {
+        CreateUsersModel base = validCreateUser("true");
+        switch (field.toLowerCase()) {
+            case "nome": return base.toBuilder().nome("").build();
+            case "email": return base.toBuilder().email("").build();
+            case "password": return base.toBuilder().password("").build();
+            case "administrador": return base.toBuilder().administrador("").build();
+            default: throw new IllegalArgumentException("Field not supported: " + field);
+        }
+    }
+
     public static CreateUsersModel invalidField(String condition){
         CreateUsersModel base = validCreateUser("true");
 

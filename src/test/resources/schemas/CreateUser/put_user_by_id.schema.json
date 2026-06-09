@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Put user by ID response schema",
+  "oneOf": [
+    {
+      "title": "Updated successfully response schema",
+      "type": "object",
+      "required": [
+        "message"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "message": {
+          "type": "string",
+          "enum": [
+            "Registro alterado com sucesso"
+          ]
+        }
+      }
+    },
+    {
+      "title": "Created successfully response schema",
+      "type": "object",
+      "required": [
+        "message",
+        "_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "message": {
+          "type": "string",
+          "enum": [
+            "Cadastro realizado com sucesso"
+          ]
+        },
+        "_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    {
+      "title": "Email already registered response schema",
+      "type": "object",
+      "required": [
+        "message"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "message": {
+          "type": "string",
+          "enum": [
+            "Este email já está sendo usado"
+          ]
+        }
+      }
+    },
+    {
+      "title": "Required fields error response schema",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": [
+            "id deve ter exatamente 16 caracteres alfanuméricos"
+          ]
+        },
+        "nome": {
+          "type": "string",
+          "enum": [
+            "nome é obrigatório",
+            "nome deve ser uma string"
+          ]
+        },
+        "email": {
+          "type": "string",
+          "enum": [
+            "email é obrigatório",
+            "email deve ser um email válido"
+          ]
+        },
+        "password": {
+          "type": "string",
+          "enum": [
+            "password é obrigatório",
+            "password deve ser uma string"
+          ]
+        },
+        "administrador": {
+          "type": "string",
+          "enum": [
+            "administrador é obrigatório",
+            "administrador deve ser 'true' ou 'false'"
+          ]
+        }
+      }
+    }
+  ]
+}
