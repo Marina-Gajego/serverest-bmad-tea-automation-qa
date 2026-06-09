@@ -31,6 +31,17 @@ Feature: Validate create users api in different scenarios
       | email         | null           | email deve ser uma string                |
       | password      | null           | password deve ser uma string             |
       | administrador | null           | administrador deve ser 'true' ou 'false' |
+      | nome          | empty          | nome não pode ficar em branco            |
+      | email         | empty          | email não pode ficar em branco           |
+      | password      | empty          | password não pode ficar em branco        |
+      | administrador | empty          | administrador deve ser 'true' ou 'false' |
+
+  @id=
+  Scenario: Create user with malformed JSON payload - (POST /usuarios)
+    Given I have a malformed JSON payload
+    When I send a POST request to the users endpoint
+    Then The response status code should be 400
+    And The response should contain the message "Adicione aspas em todos os valores. Para mais informações acesse a issue https://github.com/ServeRest/ServeRest/issues/225"
 
   @id=
   Scenario Outline: Fail to create user with invalid data - (POST /usuarios)

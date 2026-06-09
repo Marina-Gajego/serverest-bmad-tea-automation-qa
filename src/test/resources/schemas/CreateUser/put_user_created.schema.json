@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Put user creation success response schema",
+  "type": "object",
+  "required": [
+    "message",
+    "_id"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "message": {
+      "type": "string",
+      "enum": [
+        "Cadastro realizado com sucesso"
+      ]
+    },
+    "_id": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

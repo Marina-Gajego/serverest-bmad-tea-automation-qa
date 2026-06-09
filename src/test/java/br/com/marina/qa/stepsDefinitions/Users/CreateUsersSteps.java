@@ -80,7 +80,9 @@ public class CreateUsersSteps {
             case "null":
                 context.setPayload(CreateUsersFactory.fieldAsNull(field));
                 break;
-
+            case "empty":
+                context.setPayload(CreateUsersFactory.fieldEmpty(field));
+                break;
             default:
                 throw new IllegalArgumentException("Condition not supported: " + condition);
         }

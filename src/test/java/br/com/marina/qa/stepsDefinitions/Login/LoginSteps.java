@@ -36,6 +36,9 @@ public class LoginSteps {
             case "invalid format":
                 context.setPayload(LoginFactory.invalidFormatEmail());
                 break;
+            case "empty":
+                context.setPayload(LoginFactory.fieldEmpty(field));
+                break;
             default:
                 throw new IllegalArgumentException("Condition not supported: " + condition);
         }
