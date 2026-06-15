@@ -1,5 +1,6 @@
 package br.com.marina.qa.context;
 
+import br.com.marina.qa.stepsDefinitions.Login.LoginSteps;
 import io.restassured.response.Response;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,9 +22,19 @@ public class ScenarioContext {
     private String password;
 
     //Users
-    private String id;
-    private String nome;
+    private String userId;
+    private String userNome;
     private String administrador;
+
+    //Products
+    private String productId;
+    private String productName;
+    private String productPreco;
+    private String productDescricao;
+    private String productQuantidade;
+
+    //Classes
+    private LoginSteps loginSteps;
 
     public void clearAll() {
         response = null;
@@ -32,8 +43,13 @@ public class ScenarioContext {
         testData.clear();
         email = null;
         password = null;
-        id = null;
-        nome = null;
+        userId = null;
+        userNome = null;
         administrador = null;
+        productId = null;
+        productName = null;
+        productPreco = null;
+        productDescricao = null;
+        productQuantidade = null;
     }
 }

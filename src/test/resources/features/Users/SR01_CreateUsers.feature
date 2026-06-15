@@ -7,8 +7,8 @@ Feature: Validate create users api in different scenarios
     When I send a POST request to the users endpoint
     Then The response status code should be 201
     And The response should contain the message "Cadastro realizado com sucesso"
-    And The response should contain id
-    And The response contract should match "schemas/CreateUser/post_create_user.schema.json"
+    And The response should contain a user id
+    And The response contract should match "schemas/Users/post_create_user.schema.json"
 
   @id=
   Scenario Outline: Ensure post create user API validates mandatory fields and formats - (POST /login)
@@ -48,7 +48,7 @@ Feature: Validate create users api in different scenarios
     Given I have a user creation payload with "<condition>"
     When I send a POST request to the users endpoint
     Then The response status code should be 400
-    And The response should not contain id
+    And The response should not contain a user id
     And The response should contain the message "<expected_message>"
 
     Examples:

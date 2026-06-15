@@ -20,7 +20,7 @@ public class GetUsersByIdSteps {
 
     @When("I send a GET request to the users endpoint with the created user id")
     public void sendGetUserRequestWithCreatedUserId(){
-        String id = context.getId();
+        String id = context.getUserId();
         Response response = getUsersByIdService.getUserById(id);
         context.setResponse(response);
         System.out.println(response.asString());
@@ -44,8 +44,8 @@ public class GetUsersByIdSteps {
     public void theResponseShouldContainTheCorrectUserDetails() {
         Response response = context.getResponse();
 
-        assertThat(response.jsonPath().getString("_id")).isEqualTo(context.getId());
-        assertThat(response.jsonPath().getString("nome")).isEqualTo(context.getNome());
+        assertThat(response.jsonPath().getString("_id")).isEqualTo(context.getUserId());
+        assertThat(response.jsonPath().getString("nome")).isEqualTo(context.getUserNome());
         assertThat(response.jsonPath().getString("email")).isEqualTo(context.getEmail());
         assertThat(response.jsonPath().getString("password")).isEqualTo(context.getPassword());
         assertThat(response.jsonPath().getString("administrador")).isEqualTo(context.getAdministrador());

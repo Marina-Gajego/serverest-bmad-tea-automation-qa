@@ -50,3 +50,6 @@ test-results/
 
 ### Mac OS ###
 .DS_Store
+
+### Bmad ###
+_bmad-output/
