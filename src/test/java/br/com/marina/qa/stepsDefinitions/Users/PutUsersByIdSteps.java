@@ -29,7 +29,7 @@ public class PutUsersByIdSteps {
     @When("I send a PUT request to the user for update all fields with the created user id")
     public void sendPutUserRequestToUpdateAllFieldsWithCreatedUserId(){
         PutUsersByIdModel updatePayload = PutUsersByIdFactory.updateWithAllFields();
-        Response response = putUsersByIdService.updateUserById(context.getId(), updatePayload);
+        Response response = putUsersByIdService.updateUserById(context.getUserId(), updatePayload);
         System.out.println(response.asString());
         context.setResponse(response);
     }
@@ -46,16 +46,15 @@ public class PutUsersByIdSteps {
     @When("I send a PUT request to the user for update the with {string} with the created user id")
     public void sendPutUserRequestToUpdateSpecificFieldWithCreatedUserId(String field) {
         PutUsersByIdModel updatePayload = PutUsersByIdFactory.updateWithSpecificField(field);
-        Response response = putUsersByIdService.updateUserById(context.getId(), updatePayload);
+        Response response = putUsersByIdService.updateUserById(context.getUserId(), updatePayload);
         System.out.println(response.asString());
         context.setResponse(response);
     }
 
     @When("I send a PUT request to the user with invalid {string} format")
     public void sendPutUserRequestWithInvalidFieldFormat(String field) {
-        String id = context.getId();
+        String id = context.getUserId();
         Object updatePayload = PutUsersByIdFactory.updateWithInvalidFieldFormat(field);
-
         Response response = putUsersByIdService.updateUserById(id, updatePayload);
         System.out.println(response.asString());
         context.setResponse(response);
@@ -63,9 +62,8 @@ public class PutUsersByIdSteps {
 
     @When("I send a PUT request to the user with empty {string}")
     public void sendPutUserRequestWithEmptyField(String field) {
-        String id = context.getId();
+        String id = context.getUserId();
         Object updatePayload = PutUsersByIdFactory.updateWithEmptyField(field);
-
         Response response = putUsersByIdService.updateUserById(id, updatePayload);
         System.out.println(response.asString());
         context.setResponse(response);
@@ -73,7 +71,7 @@ public class PutUsersByIdSteps {
 
     @When("I send a PUT request to the user with the context payload")
     public void sendPutUserRequestWithContextPayload() {
-        Response response = putUsersByIdService.updateUserById(context.getId(), context.getPayload());
+        Response response = putUsersByIdService.updateUserById(context.getUserId(), context.getPayload());
         System.out.println(response.asString());
         context.setResponse(response);
     }
@@ -96,20 +94,20 @@ public class PutUsersByIdSteps {
                 .isEqualTo(201);
 
         PutUsersByIdModel updatePayload = PutUsersByIdFactory.updateWithUserData(
-                context.getNome(),
+                context.getUserNome(),
                 anotherUserPayload.getEmail(),
                 context.getPassword(),
                 context.getAdministrador()
         );
 
-        Response response = putUsersByIdService.updateUserById(context.getId(), updatePayload);
+        Response response = putUsersByIdService.updateUserById(context.getUserId(), updatePayload);
         System.out.println(response.asString());
         context.setResponse(response);
     }
 
     @When("I send a PUT request to the user with empty body")
     public void sendPutUserRequestWithEmptyBody(){
-        Response response = putUsersByIdService.updateUserById(context.getId(), PutUsersByIdFactory.emptyBody());
+        Response response = putUsersByIdService.updateUserById(context.getUserId(), PutUsersByIdFactory.emptyBody());
         System.out.println(response.asString());
         context.setResponse(response);
     }
@@ -117,13 +115,13 @@ public class PutUsersByIdSteps {
     @When("I send a PUT request to the user with the same registered data")
     public void sendPutUserRequestWithSameRegisteredData(){
         PutUsersByIdModel updatePayload = PutUsersByIdFactory.updateWithUserData(
-                context.getNome(),
+                context.getUserNome(),
                 context.getEmail(),
                 context.getPassword(),
                 context.getAdministrador()
         );
 
-        Response response = putUsersByIdService.updateUserById(context.getId(), updatePayload);
+        Response response = putUsersByIdService.updateUserById(context.getUserId(), updatePayload);
         System.out.println(response.asString());
         context.setResponse(response);
     }

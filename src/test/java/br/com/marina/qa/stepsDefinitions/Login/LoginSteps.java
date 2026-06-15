@@ -62,7 +62,7 @@ public class LoginSteps {
     }
 
     @When("I send a POST request to the authentication endpoint")
-    public void iSendAPostRequest() {
+    public void iSendAPostRequestToAuthenticationEndpoint() {
         Object payload = context.getPayload();
 
         if (payload == null && context.getEmail() != null) {

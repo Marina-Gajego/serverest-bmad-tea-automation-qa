@@ -7,7 +7,7 @@ Feature: Validate GET users API in different scenarios
     When I send a GET request to the users endpoint with the "<param>" query parameter
     Then The response status code should be 200
     And The response should contain the correct user
-    And The response contract should match "schemas/CreateUser/get_users.schema.json"
+    And The response contract should match "schemas/Users/get_users.schema.json"
 
     Examples:
       | param         |
@@ -23,7 +23,7 @@ Feature: Validate GET users API in different scenarios
     When I send a GET request to the users endpoint
     Then The response status code should be 200
     And The response should contain the correct user
-    And The response contract should match "schemas/CreateUser/get_users.schema.json"
+    And The response contract should match "schemas/Users/get_users.schema.json"
 
   @id=
   Scenario Outline: Get user by combined query parameters - (GET /usuarios)
@@ -31,7 +31,7 @@ Feature: Validate GET users API in different scenarios
     When I send a GET request to the users endpoint with the "<param1>" and "<param2>" query parameters
     Then The response status code should be 200
     And The response should contain the correct user
-    And The response contract should match "schemas/CreateUser/get_users.schema.json"
+    And The response contract should match "schemas/Users/get_users.schema.json"
 
     Examples:
       | param1 | param2        |
@@ -46,7 +46,7 @@ Feature: Validate GET users API in different scenarios
     When I send a GET request to the users endpoint with the "<param>" query parameter and value "<value>"
     Then The response status code should be 200
     And The response should not contain the created user
-    And The response contract should match "schemas/CreateUser/get_users.schema.json"
+    And The response contract should match "schemas/Users/get_users.schema.json"
 
     Examples:
       | param         | value            |
@@ -62,7 +62,7 @@ Feature: Validate GET users API in different scenarios
     When I send a GET request to the users endpoint with the "<param1>" query parameter and the "<param2>" query parameter with value "<value>"
     Then The response status code should be 200
     And The response should not contain the created user
-    And The response contract should match "schemas/CreateUser/get_users.schema.json"
+    And The response contract should match "schemas/Users/get_users.schema.json"
 
     Examples:
       | param1 | param2        | value            |
@@ -93,7 +93,7 @@ Feature: Validate GET users API in different scenarios
     When I send a GET request to the users endpoint with the "<param>" query parameter and value "<condition>"
     Then The response status code should be 200
     And The response should not contain any users
-    And The response contract should match "schemas/CreateUser/get_users.schema.json"
+    And The response contract should match "schemas/Users/get_users.schema.json"
 
     Examples:
       | param | condition         |
@@ -106,7 +106,7 @@ Feature: Validate GET users API in different scenarios
     When I send a GET request to the users endpoint with the "nome" query parameter and value "uppercase"
     Then The response status code should be 200
     And The response should contain the correct user
-    And The response contract should match "schemas/CreateUser/get_users.schema.json"
+    And The response contract should match "schemas/Users/get_users.schema.json"
 
   @id=
   Scenario: Get created user is not returned when nome has leading spaces - (GET /usuarios)
@@ -114,7 +114,7 @@ Feature: Validate GET users API in different scenarios
     When I send a GET request to the users endpoint with the "nome" query parameter and value "leadingSpaces"
     Then The response status code should be 200
     And The response should not contain the created user
-    And The response contract should match "schemas/CreateUser/get_users.schema.json"
+    And The response contract should match "schemas/Users/get_users.schema.json"
 
   @id=
   Scenario: Get user without query parameters - (GET /usuarios)
@@ -122,7 +122,7 @@ Feature: Validate GET users API in different scenarios
     When I send a GET request to the users endpoint without query parameters
     Then The response status code should be 200
     And The response should contain the correct user
-    And The response contract should match "schemas/CreateUser/get_users.schema.json"
+    And The response contract should match "schemas/Users/get_users.schema.json"
 
   @id=
   Scenario: Verify deleted user is not returned in search - (GET /usuarios)
@@ -132,4 +132,4 @@ Feature: Validate GET users API in different scenarios
     And The response should contain the message "Registro excluído com sucesso"
     And I send a GET request to the users endpoint
     And The response should not contain the created user
-    And The response contract should match "schemas/CreateUser/get_users.schema.json"
+    And The response contract should match "schemas/Users/get_users.schema.json"

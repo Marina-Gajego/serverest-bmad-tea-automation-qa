@@ -17,7 +17,7 @@ public class DeleteUsersSteps {
 
     @When("I send a DELETE request to the users endpoint with the created user id")
     public void sendDeleteUserRequestWithCreatedUserId(){
-        String id = context.getId();
+        String id = context.getUserId();
         Response response = deleteUsersService.deleteUserById(id);
         context.setResponse(response);
         System.out.println(response.asString());

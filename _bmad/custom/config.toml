@@ -1,0 +1,6 @@
+[tea.automate]
+description = "Test Automation com padrões do projeto"
+step_parameter_style = "cucumber_types"  # {int}, {string}, {double}
+use_regex = false
+follow_conventions = true
+example_steps_path = "src/test/java/br/com/marina/qa/stepsDefinitions/"

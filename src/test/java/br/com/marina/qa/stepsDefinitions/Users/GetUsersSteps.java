@@ -72,7 +72,7 @@ public class GetUsersSteps {
 
     @When("I send a GET request to the users endpoint")
     public void sendGetUsersRequestWithAllQueryParameters(){
-        GetUsersModel parameters = GetUsersFactory.getUserAllParams(context.getNome(), context.getEmail(), context.getPassword(), context.getAdministrador(), context.getId());
+        GetUsersModel parameters = GetUsersFactory.getUserAllParams(context.getUserNome(), context.getEmail(), context.getPassword(), context.getAdministrador(), context.getUserId());
         sendGetUsersRequest(parameters);
     }
 
@@ -84,8 +84,8 @@ public class GetUsersSteps {
 
         assertThat(users)
                 .anySatisfy(user -> {
-                    assertThat(user.get("_id")).isEqualTo(context.getId());
-                    assertThat(user.get("nome")).isEqualTo(context.getNome());
+                    assertThat(user.get("_id")).isEqualTo(context.getUserId());
+                    assertThat(user.get("nome")).isEqualTo(context.getUserNome());
                     assertThat(user.get("email")).isEqualTo(context.getEmail());
                     assertThat(user.get("password")).isEqualTo(context.getPassword());
                     assertThat(user.get("administrador")).isEqualTo(context.getAdministrador());
@@ -103,14 +103,14 @@ public class GetUsersSteps {
     public void theResponseShouldNotContainTheCreatedUser(){
         Response response = context.getResponse();
         assertThat(response.asString())
-                .doesNotContain(context.getId())
+                .doesNotContain(context.getUserId())
                 .doesNotContain(context.getEmail());
     }
 
     private String getCreatedUserFieldValue(String field) {
         return switch (field.toLowerCase()) {
-            case "_id" -> context.getId();
-            case "nome" -> context.getNome();
+            case "_id" -> context.getUserId();
+            case "nome" -> context.getUserNome();
             case "email" -> context.getEmail();
             case "password" -> context.getPassword();
             case "administrador" -> context.getAdministrador();
@@ -123,9 +123,9 @@ public class GetUsersSteps {
 
         return switch (normalizedValue) {
             case "malformed" -> context.getEmail().replace("@", "4");
-            case "specialcharacters" -> context.getNome() + "@#$";
+            case "specialcharacters" -> context.getUserNome() + "@#$";
             case "uppercase" -> getCreatedUserFieldValue(field).toUpperCase();
-            case "leadingspaces" -> "   " + context.getNome();
+            case "leadingspaces" -> "   " + context.getUserNome();
             case "trailingspaces" -> context.getEmail() + " ";
             default -> value;
         };

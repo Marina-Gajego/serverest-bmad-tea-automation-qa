@@ -4,6 +4,7 @@ import br.com.marina.qa.context.ScenarioContext;
 import br.com.marina.qa.factory.Users.CreateUsersFactory;
 import br.com.marina.qa.model.Users.CreateUsersModel;
 import br.com.marina.qa.services.Users.CreateUsersService;
+import br.com.marina.qa.stepsDefinitions.Login.LoginSteps;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -16,10 +17,12 @@ public class CreateUsersSteps {
 
     private final CreateUsersService createUsersService;
     private final ScenarioContext context;
+    private final LoginSteps loginSteps;
 
-    public CreateUsersSteps(CreateUsersService createUsersService, ScenarioContext context){
+    public CreateUsersSteps(CreateUsersService createUsersService, ScenarioContext context, LoginSteps loginSteps){
         this.createUsersService = createUsersService;
         this.context = context;
+        this.loginSteps = loginSteps;
     }
 
     @Given("I have a registered user")
@@ -31,12 +34,19 @@ public class CreateUsersSteps {
         assertThat(response.getStatusCode())
                 .as("User should be created before running this scenario")
                 .isEqualTo(201);
-        context.setId(response.jsonPath().getString("_id"));
+        context.setUserId(response.jsonPath().getString("_id"));
         context.setEmail(userPayload.getEmail());
         context.setPassword(userPayload.getPassword());
-        context.setNome(userPayload.getNome());
+        context.setUserNome(userPayload.getNome());
         context.setAdministrador(userPayload.getAdministrador());
         log.info("User created: {} | {}", context.getEmail(), context.getPassword());
+    }
+
+    @Given("I have an authenticated user")
+    public void iHaveAnAuthenticatedUser(){
+        iHaveARegisteredUser();
+        loginSteps.iSendAPostRequestToAuthenticationEndpoint();
+        loginSteps.theResponseShouldContainAToken();
     }
 
     @And("I have a registered user who is not an admin")
@@ -48,10 +58,10 @@ public class CreateUsersSteps {
         assertThat(response.getStatusCode())
                 .as("User should be created before running this scenario")
                 .isEqualTo(201);
-        context.setId(response.jsonPath().getString("_id"));
+        context.setUserId(response.jsonPath().getString("_id"));
         context.setEmail(userPayload.getEmail());
         context.setPassword(userPayload.getPassword());
-        context.setNome(userPayload.getNome());
+        context.setUserNome(userPayload.getNome());
         context.setAdministrador(userPayload.getAdministrador());
         log.info("Non-admin user created: {} | {}", context.getEmail(), context.getPassword());
     }
@@ -96,16 +106,16 @@ public class CreateUsersSteps {
         log.info("The create user payload is sent. Status: {}", response.getStatusCode());
     }
 
-    @And("The response should contain id")
-    public void theResponseShouldContainId(){
+    @And("The response should contain a user id")
+    public void theResponseShouldContainAUserId(){
         Response response = context.getResponse();
         String id = response.jsonPath().getString("_id");
         assertThat((id)).as("Response should contain '_id'").isNotNull().isNotEmpty();
-        context.setId(id);
+        context.setUserId(id);
     }
 
-    @And("The response should not contain id")
-    public void theResponseShouldNotContainId(){
+    @And("The response should not contain a user id")
+    public void theResponseShouldNotContainAUserId(){
         Response response = context.getResponse();
         String id = response.jsonPath().getString("_id");
         assertThat(id).as("Response should not contain '_id'").isNull();
