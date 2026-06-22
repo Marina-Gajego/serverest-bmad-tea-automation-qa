@@ -72,7 +72,7 @@ public final class LoginFactory {
 
     public static LoginModel wrongEmail() {
         return validLogin().toBuilder()
-                .password("12345")
+                .email("email-invalido")
                 .build();
     }
 
