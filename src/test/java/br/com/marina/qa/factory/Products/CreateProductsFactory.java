@@ -160,6 +160,22 @@ public final class CreateProductsFactory {
     }
 
     public static CreateProductsModel productWithInvalidEmailFormat(String field) {
-        return validProduct();
+        CreateProductsModel base = validProduct();
+
+        if ("nome".equalsIgnoreCase(field)) {
+            return base.toBuilder().nome("nome-invalido").build();
+        }
+
+        if ("descricao".equalsIgnoreCase(field)) {
+            return base.toBuilder().descricao("descricao-invalida").build();
+        }
+
+        return base.toBuilder().nome("nome-invalido").build();
+    }
+
+    public static Map<String, Object> productWithExtraUnknownFields() {
+        Map<String, Object> map = toMap(validProduct());
+        map.put("campo_desconhecido", "valor-extra");
+        return map;
     }
 }

@@ -13,8 +13,8 @@ Passos:
 1) Clonar o repositório e entrar na pasta:
 
 ```bash
-git clone https://github.com/Marina-Gajego/serverest-api-automation-qa.git
-cd serverest-api-automation-qa
+git clone https://github.com/Marina-Gajego/serverest-bmad-tea-automation-qa.git
+cd serverest-bmad-tea-automation-qa
 ```
 
 2) Subir a API ServeRest via Docker (comando que faz pull automático):

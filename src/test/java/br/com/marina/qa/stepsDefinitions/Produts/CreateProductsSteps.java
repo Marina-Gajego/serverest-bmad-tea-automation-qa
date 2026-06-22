@@ -73,7 +73,7 @@ public class CreateProductsSteps {
 
     @Given("I have a product payload with extra unknown fields")
     public void iHaveProductPayloadWithExtraFields() {
-        context.setPayload(CreateProductsFactory.validProduct());
+        context.setPayload(CreateProductsFactory.productWithExtraUnknownFields());
     }
 
     @When("I send a POST request to create a product")

@@ -59,7 +59,7 @@ Feature: Validate PUT user by ID API in different scenarios
     When I send a PUT request to the user with inexistent id
     Then The response status code should be 201
     And The response should contain the message "Cadastro realizado com sucesso"
-    And The response should contain id
+    And The response should contain a user id
     And The response contract should match "schemas/Users/put_user_created.schema.json"
 
   @id=
@@ -123,7 +123,7 @@ Feature: Validate PUT user by ID API in different scenarios
 
     Examples:
       | field         | expected_message                               |
-      | nome          | nome   não pode ficar em branco                  |
+      | nome          | nome não pode ficar em branco                  |
       | password      | password não pode ficar em branco              |
       | email         | email não pode ficar em branco                 |
       | administrador | administrador deve ser 'true' ou 'false'       |

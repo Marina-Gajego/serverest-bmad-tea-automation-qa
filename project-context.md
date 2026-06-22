@@ -1,5 +1,5 @@
 ---
-project_name: 'serverest-api-automation-qa'
+project_name: 'serverest-bmad-tea-automation-qa'
 user_name: 'Marina'
 date: '2026-06-13'
 sections_completed: ['technology_stack', 'architecture_patterns', 'naming_conventions', 'critical_rules']
@@ -451,4 +451,3 @@ public class NewDomainSteps {
 
 **Last Updated:** June 13, 2026  
 **Applicable To:** All AI Agents, Code Generators, Refactoring Tools
-

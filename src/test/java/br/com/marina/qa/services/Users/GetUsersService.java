@@ -14,7 +14,7 @@ import static io.restassured.RestAssured.given;
 @Slf4j
 public class GetUsersService {
 
-    private static final long WAIT_BEFORE_GET_IN_MILLISECONDS = 2000;
+    private static final long WAIT_BEFORE_GET_IN_MILLISECONDS = 500;
 
     public Response getUsers(GetUsersModel queryParams){
         waitBeforeGet();

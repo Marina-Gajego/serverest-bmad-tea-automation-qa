@@ -1,6 +1,3 @@
-[tea.automate]
-description = "Test Automation com padrões do projeto"
-step_parameter_style = "cucumber_types"  # {int}, {string}, {double}
-use_regex = false
-follow_conventions = true
-example_steps_path = "src/test/java/br/com/marina/qa/stepsDefinitions/"
+# Customizacao central do BMad.
+# Regras especificas de agentes/workflows devem ficar em arquivos por skill,
+# por exemplo: _bmad/custom/bmad-testarch-automate.toml

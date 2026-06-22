@@ -53,3 +53,8 @@ test-results/
 
 ### Bmad ###
 _bmad-output/
+_bmad/**/project-scan-report.json
+_bmad/**/.archive/
+_bmad/custom/*.user.toml
+.agents/
+.claude/
