@@ -1,0 +1,188 @@
+name: Test Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: "0 2 * * 0"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  JAVA_VERSION: "17"
+  BASE_URL: http://localhost:3000
+
+jobs:
+  lint:
+    name: Lint / Compile
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: maven
+
+      - name: Compile test sources
+        run: mvn -B clean test-compile
+
+  test:
+    name: Test (${{ matrix.domain }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: lint
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - domain: Login
+            cucumber-tag: "@Login"
+          - domain: Users
+            cucumber-tag: "@Users"
+          - domain: Products
+            cucumber-tag: "@products"
+
+    services:
+      serverest:
+        image: paulogoncalvesbh/serverest:latest
+        ports:
+          - 3000:3000
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: maven
+
+      - name: Wait for ServeRest
+        run: |
+          for attempt in {1..30}; do
+            if curl --fail --silent "$BASE_URL/usuarios" > /dev/null; then
+              echo "ServeRest is ready"
+              exit 0
+            fi
+
+            echo "Waiting for ServeRest... attempt $attempt/30"
+            sleep 2
+          done
+
+          echo "ServeRest did not become ready in time"
+          exit 1
+
+      - name: Run Cucumber tests
+        env:
+          CUCUMBER_TAGS: ${{ matrix.cucumber-tag }}
+        run: mvn -B clean test -Dcucumber.filter.tags="$CUCUMBER_TAGS"
+
+      - name: Upload Cucumber and Surefire reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-${{ matrix.domain }}
+          path: |
+            target/cucumber-report.html
+            target/cucumber-report.json
+            target/timeline/
+            target/surefire-reports/
+          retention-days: 30
+
+  burn-in:
+    name: Burn-In
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    needs: test
+    if: github.event_name == 'pull_request' || github.event_name == 'schedule'
+
+    services:
+      serverest:
+        image: paulogoncalvesbh/serverest:latest
+        ports:
+          - 3000:3000
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: maven
+
+      - name: Wait for ServeRest
+        run: |
+          for attempt in {1..30}; do
+            if curl --fail --silent "$BASE_URL/usuarios" > /dev/null; then
+              echo "ServeRest is ready"
+              exit 0
+            fi
+
+            echo "Waiting for ServeRest... attempt $attempt/30"
+            sleep 2
+          done
+
+          echo "ServeRest did not become ready in time"
+          exit 1
+
+      - name: Run burn-in loop
+        run: |
+          for iteration in {1..3}; do
+            echo "Burn-in iteration $iteration/3"
+            mvn -B clean test -Dcucumber.filter.tags="@regression"
+          done
+
+      - name: Upload burn-in reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: burn-in-reports
+          path: |
+            target/cucumber-report.html
+            target/cucumber-report.json
+            target/timeline/
+            target/surefire-reports/
+          retention-days: 30
+
+  report:
+    name: Report
+    runs-on: ubuntu-latest
+    needs: [lint, test, burn-in]
+    if: always()
+
+    steps:
+      - name: Download test artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Publish summary
+        run: |
+          echo "## Test Execution Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Lint / Compile: ${{ needs.lint.result }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Domain test matrix: ${{ needs.test.result }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Burn-in: ${{ needs.burn-in.result }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Java: $JAVA_VERSION" >> "$GITHUB_STEP_SUMMARY"
+          echo "- API base URL: $BASE_URL" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Artifacts include Cucumber HTML, Cucumber JSON, Cucumber timeline, and Surefire reports." >> "$GITHUB_STEP_SUMMARY"
