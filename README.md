@@ -96,18 +96,3 @@ src/test/resources
 ├── features
 └── schemas
 ```
-
-## Topics Sugeridos
-
-Para facilitar que este repositório seja encontrado no GitHub como projeto relacionado ao ServeRest, use os topics:
-
-```text
-serverest
-api-testing
-rest-assured
-cucumber
-java
-qa-automation
-test-automation
-json-schema
-```
