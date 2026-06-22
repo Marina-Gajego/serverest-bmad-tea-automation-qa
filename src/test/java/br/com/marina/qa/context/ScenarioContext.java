@@ -29,9 +29,9 @@ public class ScenarioContext {
     //Products
     private String productId;
     private String productName;
-    private String productPreco;
+    private Integer productPreco;
     private String productDescricao;
-    private String productQuantidade;
+    private Integer productQuantidade;
 
     //Classes
     private LoginSteps loginSteps;

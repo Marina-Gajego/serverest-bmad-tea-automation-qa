@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CreateProductsModel {
+public class GetProductsModel {
+    private String id;
     private String nome;
-    private Integer preco;
+    private Object preco;
     private String descricao;
-    private Integer quantidade;
+    private Object quantidade;
 }
