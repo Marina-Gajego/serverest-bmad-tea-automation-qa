@@ -125,8 +125,8 @@ Feature: Validate create products API in different scenarios
     Given I have an authenticated user
     And I have a product payload with extra unknown fields
     When I send a POST request to create a product
-    Then The response status code should be 201
-    And The response should contain the message "Cadastro realizado com sucesso"
+    Then The response status code should be 400
+    And The response should contain the message "campo_desconhecido não é permitido"
 
   @id=
   Scenario Outline: Create product with null values - (POST /produtos)

@@ -13,8 +13,8 @@ public final class CreateProductsFactory {
 
     private static final Faker FAKER = new Faker(new Locale("pt-BR"));
 
-    private static Double generatePrice() {
-        return Double.parseDouble(FAKER.commerce().price().replace(",", ""));
+    private static Integer generatePrice() {
+        return FAKER.number().numberBetween(1, 1000);
     }
 
     public static CreateProductsModel validProduct() {
@@ -68,7 +68,7 @@ public final class CreateProductsFactory {
         switch (field.toLowerCase()) {
             case "nome":       return base.toBuilder().nome("").build();
             case "descricao":  return base.toBuilder().descricao("").build();
-            case "preco":      return base.toBuilder().preco(null).build(); // Double não tem "", usa null
+            case "preco":      return base.toBuilder().preco(null).build();
             case "quantidade": return base.toBuilder().quantidade(null).build();
             default: throw new IllegalArgumentException("Field not supported: " + field);
         }
@@ -104,7 +104,7 @@ public final class CreateProductsFactory {
         switch (field.toLowerCase()) {
             case "preco": {
                 try {
-                    return base.toBuilder().preco(Double.parseDouble(value)).build();
+                    return base.toBuilder().preco(Integer.parseInt(value)).build();
                 } catch (NumberFormatException e) {
                     Map<String, Object> map = toMap(base);
                     map.put("preco", value);

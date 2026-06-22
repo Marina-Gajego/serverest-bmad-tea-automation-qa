@@ -21,7 +21,7 @@ public class CreateProductsService {
                 .log().all()
                 .post();
 
-        log.info("definir aqui mensagem igual temos nas outras apis");
+        log.info("Create product. Status code: {}", response.getStatusCode());
         return response;
     }
 }

@@ -2,7 +2,9 @@ package br.com.marina.qa.stepsDefinitions.Produts;
 
 import br.com.marina.qa.context.ScenarioContext;
 import br.com.marina.qa.factory.Products.CreateProductsFactory;
+import br.com.marina.qa.model.Products.CreateProductsModel;
 import br.com.marina.qa.services.Products.CreateProductsService;
+import br.com.marina.qa.stepsDefinitions.Users.CreateUsersSteps;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -16,15 +18,37 @@ public class CreateProductsSteps {
 
     private final ScenarioContext context;
     private final CreateProductsService createProductsService;
+    private final CreateUsersSteps createUsersSteps;
 
-    public CreateProductsSteps(ScenarioContext context, CreateProductsService createProductsService) {
+    public CreateProductsSteps(ScenarioContext context, CreateProductsService createProductsService, CreateUsersSteps createUsersSteps) {
         this.context = context;
         this.createProductsService = createProductsService;
+        this.createUsersSteps = createUsersSteps;
     }
 
     @Given("I have a valid product payload")
     public void iHaveAValidProductPayload() {
         context.setPayload(CreateProductsFactory.validProduct());
+    }
+
+    @Given("I have a registered product")
+    public void iHaveARegisteredProduct() {
+        createUsersSteps.iHaveAnAuthenticatedUser();
+        CreateProductsModel productPayload = CreateProductsFactory.validProduct();
+        context.setPayload(productPayload);
+
+        Response response = createProductsService.createProduct(productPayload, context.getAuthToken());
+        context.setResponse(response);
+
+        assertThat(response.getStatusCode())
+                .as("Product should be created before running this scenario")
+                .isEqualTo(201);
+
+        context.setProductId(response.jsonPath().getString("_id"));
+        context.setProductName(productPayload.getNome());
+        context.setProductPreco(productPayload.getPreco());
+        context.setProductDescricao(productPayload.getDescricao());
+        context.setProductQuantidade(productPayload.getQuantidade());
     }
 
     @Given("I have a product payload with the {string} as {string}")

@@ -40,12 +40,12 @@ Feature: Validate login api in different scenarios
   Scenario Outline: Login with invalid credentials - (POST /login)
     Given I have login credentials with "<condition>"
     When I send a POST request to the authentication endpoint
-    Then The response status code should be 401
+    Then The response status code should be <status_code>
     And The response should contain the message "<expected_message>"
     And The response should not contain a token
 
     Examples:
-      | condition                  | expected_message           |
-      | invalid email              | Email e/ou senha inválidos |
-      | invalid password           | Email e/ou senha inválidos |
-      | invalid email and password | Email e/ou senha inválidos |
+      | condition                  | expected_message                | status_code |
+      | invalid email              | email deve ser um email válido  | 400         |
+      | invalid password           | Email e/ou senha inválidos      | 401         |
+      | invalid email and password | Email e/ou senha inválidos      | 401         |
