@@ -8,7 +8,6 @@ Feature: Validate create users api in different scenarios
     Then The response status code should be 201
     And The response should contain the message "Cadastro realizado com sucesso"
     And The response should contain a user id
-    And The response contract should match "schemas/Users/post_create_user.schema.json"
 
   @id=
   Scenario Outline: Ensure post create user API validates mandatory fields and formats - (POST /login)

@@ -30,7 +30,6 @@ public class PutUsersByIdSteps {
     public void sendPutUserRequestToUpdateAllFieldsWithCreatedUserId(){
         PutUsersByIdModel updatePayload = PutUsersByIdFactory.updateWithAllFields();
         Response response = putUsersByIdService.updateUserById(context.getUserId(), updatePayload);
-        System.out.println(response.asString());
         context.setResponse(response);
     }
 
@@ -39,7 +38,6 @@ public class PutUsersByIdSteps {
         String inexistentId = UUID.randomUUID().toString().replace("-", "").substring(0, 16);
         PutUsersByIdModel updatePayload = PutUsersByIdFactory.updateWithAllFields();
         Response response = putUsersByIdService.updateUserById(inexistentId, updatePayload);
-        System.out.println(response.asString());
         context.setResponse(response);
     }
 
@@ -47,7 +45,6 @@ public class PutUsersByIdSteps {
     public void sendPutUserRequestToUpdateSpecificFieldWithCreatedUserId(String field) {
         PutUsersByIdModel updatePayload = PutUsersByIdFactory.updateWithSpecificField(field);
         Response response = putUsersByIdService.updateUserById(context.getUserId(), updatePayload);
-        System.out.println(response.asString());
         context.setResponse(response);
     }
 
@@ -56,7 +53,6 @@ public class PutUsersByIdSteps {
         String id = context.getUserId();
         Object updatePayload = PutUsersByIdFactory.updateWithInvalidFieldFormat(field);
         Response response = putUsersByIdService.updateUserById(id, updatePayload);
-        System.out.println(response.asString());
         context.setResponse(response);
     }
 
@@ -65,14 +61,12 @@ public class PutUsersByIdSteps {
         String id = context.getUserId();
         Object updatePayload = PutUsersByIdFactory.updateWithEmptyField(field);
         Response response = putUsersByIdService.updateUserById(id, updatePayload);
-        System.out.println(response.asString());
         context.setResponse(response);
     }
 
     @When("I send a PUT request to the user with the context payload")
     public void sendPutUserRequestWithContextPayload() {
         Response response = putUsersByIdService.updateUserById(context.getUserId(), context.getPayload());
-        System.out.println(response.asString());
         context.setResponse(response);
     }
 
@@ -80,7 +74,6 @@ public class PutUsersByIdSteps {
     public void sendPutUserRequestWithoutIdInPath(){
         PutUsersByIdModel updatePayload = PutUsersByIdFactory.updateWithAllFields();
         Response response = putUsersByIdService.updateUserWithoutId(updatePayload);
-        System.out.println(response.asString());
         context.setResponse(response);
     }
 
@@ -101,14 +94,12 @@ public class PutUsersByIdSteps {
         );
 
         Response response = putUsersByIdService.updateUserById(context.getUserId(), updatePayload);
-        System.out.println(response.asString());
         context.setResponse(response);
     }
 
     @When("I send a PUT request to the user with empty body")
     public void sendPutUserRequestWithEmptyBody(){
         Response response = putUsersByIdService.updateUserById(context.getUserId(), PutUsersByIdFactory.emptyBody());
-        System.out.println(response.asString());
         context.setResponse(response);
     }
 
@@ -122,7 +113,6 @@ public class PutUsersByIdSteps {
         );
 
         Response response = putUsersByIdService.updateUserById(context.getUserId(), updatePayload);
-        System.out.println(response.asString());
         context.setResponse(response);
     }
 }

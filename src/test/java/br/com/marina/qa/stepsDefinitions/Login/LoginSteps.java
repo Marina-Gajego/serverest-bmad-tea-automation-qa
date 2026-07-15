@@ -72,7 +72,7 @@ public class LoginSteps {
 
         Response response = loginService.login(payload);
         context.setResponse(response);
-        log.info(response.asString());
+        log.info("Response: {}", response.asString());
         log.info("Request sent. Status: {}", response.getStatusCode());
     }
 

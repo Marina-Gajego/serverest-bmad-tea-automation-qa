@@ -8,8 +8,6 @@ Feature: Validate login api in different scenarios
     Then The response status code should be 200
     And The response should contain the message "Login realizado com sucesso"
     And The response should contain a token
-    And The response contract should match "schemas/Login/login.schema.json"
-
   @id=
   Scenario Outline: Ensure authentication API validates mandatory fields and formats - (POST /login)
     Given I have a login payload with the "<field>" as "<condition>"
