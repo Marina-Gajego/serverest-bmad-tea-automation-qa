@@ -85,16 +85,6 @@ public class CreateProductsSteps {
         context.setAuthToken("invalid-token-12345");
     }
 
-    @Given("I have a product payload with {string} as a very long string {string}")
-    public void iHaveProductWithVeryLongField(String field, String lengthIndicator) {
-        context.setPayload(CreateProductsFactory.productWithVeryLongField(field));
-    }
-
-    @Given("I have a product payload with {string} containing special characters {string}")
-    public void iHaveProductWithSpecialCharacters(String field, String specialChars) {
-        context.setPayload(CreateProductsFactory.productWithSpecialCharacters(field));
-    }
-
     @Given("I have a product payload with extra unknown fields")
     public void iHaveProductPayloadWithExtraFields() {
         context.setPayload(CreateProductsFactory.productWithExtraUnknownFields());
@@ -104,8 +94,6 @@ public class CreateProductsSteps {
     public void iSendAPostRequestToCreateProductEndpoint() {
         Response response = createProductsService.createProduct(context.getPayload(), context.getAuthToken());
         context.setResponse(response);
-        log.info("Response Status: {}", response.getStatusCode());
-        log.info("Response Body: {}", response.asString());
     }
 
     @Given("I have a product payload with a short name")

@@ -23,7 +23,6 @@ public class GetUsersByIdSteps {
         String id = context.getUserId();
         Response response = getUsersByIdService.getUserById(id);
         context.setResponse(response);
-        System.out.println(response.asString());
     }
 
     @When("I send a GET request to the users with {string}")

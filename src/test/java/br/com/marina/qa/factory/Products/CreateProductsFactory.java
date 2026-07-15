@@ -12,7 +12,6 @@ import java.util.UUID;
 public final class CreateProductsFactory {
 
     private static final Faker FAKER = new Faker(new Locale("pt-BR"));
-
     private static Integer generatePrice() {
         return FAKER.number().numberBetween(1, 1000);
     }
@@ -123,26 +122,6 @@ public final class CreateProductsFactory {
             case "nome":      return base.toBuilder().nome(value + "-" + UUID.randomUUID().toString().substring(0, 8)).build();
             case "descricao": return base.toBuilder().descricao(value).build();
             default: throw new IllegalArgumentException("Field not supported: " + field);
-        }
-    }
-
-    public static CreateProductsModel productWithVeryLongField(String field) {
-        String longString = "A".repeat(150);
-        CreateProductsModel base = validProduct();
-        switch (field.toLowerCase()) {
-            case "nome":      return base.toBuilder().nome(longString).build();
-            case "descricao": return base.toBuilder().descricao(longString).build();
-            default:          return base.toBuilder().nome(longString).build();
-        }
-    }
-
-    public static CreateProductsModel productWithSpecialCharacters(String field) {
-        String specialChars = "Descrição com caracteres especiais !@#$%&*()";
-        CreateProductsModel base = validProduct();
-        switch (field.toLowerCase()) {
-            case "nome":      return base.toBuilder().nome(specialChars).build();
-            case "descricao": return base.toBuilder().descricao(specialChars).build();
-            default:          return base.toBuilder().descricao(specialChars).build();
         }
     }
 

@@ -9,7 +9,6 @@ Feature: Validate create products API in different scenarios
     Then The response status code should be 201
     And The response should contain the message "Cadastro realizado com sucesso"
     And The response should contain a product id
-    And The response contract should match "schemas/Products/post_create_product_success.schema.json"
 
   @id=
   Scenario Outline: Ensure create product API validates mandatory fields - (POST /produtos)

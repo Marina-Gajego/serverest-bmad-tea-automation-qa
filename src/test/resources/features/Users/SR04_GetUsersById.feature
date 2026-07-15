@@ -6,6 +6,7 @@ Feature: Validate GET user by ID API in different scenarios
     Given I have a registered user
     When I send a GET request to the users endpoint with the created user id
     Then The response status code should be 200
+    And The response should contain the correct user details
     And The response contract should match "schemas/Users/get_user_by_id.schema.json"
 
   @id=

@@ -77,3 +77,12 @@ Feature: Validate GET products API in different scenarios
     Then The response status code should be 200
     And The response should contain the correct product
     And The response contract should match "schemas/Products/get_products.schema.json"
+
+  @id=
+  Scenario: Get product after deletion - (GET /produtos)
+    Given I have a registered product
+    And I send a DELETE request to the products endpoint with the product ID
+    When I send a GET request to the products endpoint
+    Then The response status code should be 200
+    And The response should not contain any products
+    And The response contract should match "schemas/Products/get_products.schema.json"

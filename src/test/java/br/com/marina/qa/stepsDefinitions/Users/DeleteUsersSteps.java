@@ -20,14 +20,12 @@ public class DeleteUsersSteps {
         String id = context.getUserId();
         Response response = deleteUsersService.deleteUserById(id);
         context.setResponse(response);
-        System.out.println(response.asString());
     }
 
     @When("I send a DELETE request to the users endpoint without id")
     public void sendDeleteUserRequestWithoutId(){
         Response response = deleteUsersService.deleteUsersWithoutId();
         context.setResponse(response);
-        System.out.println(response.asString());
     }
 
     @When("I send a DELETE request to the users with {string}")
