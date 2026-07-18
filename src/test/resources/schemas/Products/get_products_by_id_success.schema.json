@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Get product by ID success response schema",
+  "type": "object",
+  "required": [
+    "nome",
+    "preco",
+    "descricao",
+    "quantidade",
+    "_id"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "nome": {
+      "type": "string"
+    },
+    "preco": {
+      "type": "integer"
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "quantidade": {
+      "type": "integer"
+    },
+    "_id": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
