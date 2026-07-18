@@ -101,6 +101,7 @@ Feature: Validate create products API in different scenarios
       | descricao  | Produto com acentuação           | 201         | Cadastro realizado com sucesso    |
       | preco      | 0                                | 400         | preco deve ser um número positivo |
       | quantidade | 1                                | 201         | Cadastro realizado com sucesso    |
+      | quantidade | 0                                | 201         | Cadastro realizado com sucesso    |
       | quantidade | 999999                           | 201         | Cadastro realizado com sucesso    |
 
   @id=
