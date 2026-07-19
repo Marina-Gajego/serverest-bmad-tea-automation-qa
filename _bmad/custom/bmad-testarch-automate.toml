@@ -30,5 +30,13 @@ persistent_facts = [
   "Nao hardcodar token, credenciais pessoais, IDs dinamicos ou emails fixos para massa principal; usar factories e dados unicos.",
   "Manter logs com Lombok @Slf4j quando fizer sentido, mas nao logar segredos sensiveis desnecessariamente.",
   "Executar e orientar validacao com mvn test; para filtro de tags, usar mvn test -Dcucumber.filter.tags=\"@tag\".",
-  "Antes de criar novo step, procurar steps existentes em src/test/java/br/com/marina/qa/stepsDefinitions/ para evitar duplicidade de frases Cucumber."
+  "Antes de criar novo step, procurar steps existentes em src/test/java/br/com/marina/qa/stepsDefinitions/ para evitar duplicidade de frases Cucumber.",
+  "Antes de implementar novos testes, comparar com o fluxo equivalente ja existente no repo para copiar o nivel certo de responsabilidade entre Feature, Steps, Factory, Service e Model.",
+  "StepsDefinitions devem ser orquestradores: nao construir payloads com builders diretamente, nao popular Maps manualmente e nao concentrar regras de massa; usar factories existentes ou criar metodos de factory com nomes claros.",
+  "Quando um step precisar criar massa auxiliar, por exemplo outro usuario ou outro produto para validar duplicidade, a massa deve vir da factory do dominio, seguindo o padrao de PutUsersByIdSteps com CreateUsersFactory.",
+  "Nao criar helpers privados em StepsDefinitions para uso unico; deixar a logica no metodo chamador ou mover para Factory/Service quando houver reuso real ou regra de dominio.",
+  "Antes de adicionar novos bindings Cucumber, procurar frases similares e preferir consolidar variacoes de request/payload em um unico step parametrizado por condicao, desde que a feature continue legivel.",
+  "Para Scenario Outline de variacoes de payload, preferir coluna condition com valores expressivos como 'missing nome', 'empty body', 'invalid token' e mapear essas condicoes em um unico step, evitando metodos quase identicos.",
+  "Factories devem expor metodos especificos para massas especiais, como duplicidade, campos ausentes, campos nulos, formatos invalidos e campos extras; Steps nao devem saber como esses objetos sao montados internamente.",
+  "Depois de gerar automacao, revisar o codigo procurando tres anti-padroes: builder/model direto no step, duplicacao de step definitions para a mesma acao HTTP e metodos privados de uso unico."
 ]
